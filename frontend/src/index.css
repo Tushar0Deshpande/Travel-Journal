@@ -1,0 +1,484 @@
+/* General Body and Font Styles */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif; /* Using Poppins for a modern look */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f2f5; /* Light grey background */
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Import Poppins font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+/* Link Styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Global Container for consistent spacing */
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+/* --- Navbar Styles --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: linear-gradient(to right, #6dd5ed, #2193b0); /* Blue gradient */
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-logo {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.navbar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-list li {
+  margin: 0 15px;
+}
+
+.navbar-list li a,
+.navbar-list li span {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.navbar-list li a:hover,
+.navbar-list li span:hover {
+  color: #e0f7fa; /* Lighter blue on hover */
+  transform: translateY(-2px);
+  text-shadow: 0 0 5px rgba(255,255,255,0.7);
+}
+
+.navbar-list li a::after,
+.navbar-list li span::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  display: block;
+  margin-top: 5px;
+  right: 0;
+  background: #e0f7fa;
+  transition: width 0.3s ease;
+}
+
+.navbar-list li a:hover::after,
+.navbar-list li span:hover::after {
+  width: 100%;
+  left: 0;
+  background: #e0f7fa;
+}
+
+.navbar-welcome {
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+
+/* --- Form Container Styles (Login, Register, Create) --- */
+.form-container {
+  max-width: 550px;
+  margin: 60px auto;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-out;
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+  font-size: 2.2rem;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Input and Textarea Styles */
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.3s ease;
+  background-color: #fdfdfd;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #2193b0; /* Vibrant blue focus */
+  box-shadow: 0 0 0 3px rgba(33, 147, 176, 0.2);
+  background-color: #fff;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Button Styles */
+.form-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(to right, #6dd5ed, #2193b0); /* Blue gradient */
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.form-button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 147, 176, 0.3);
+}
+
+.form-error {
+  color: #e74c3c;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.form-link-text {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.form-link-text a {
+  color: #2193b0;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.form-link-text a:hover {
+  color: #6dd5ed;
+  text-decoration: underline;
+}
+
+/* --- Home Page Specific Styles --- */
+.home-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  animation: slideInFromTop 0.8s ease-out;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Slightly larger cards */
+  gap: 30px; /* Increased gap */
+  padding: 20px 0;
+}
+
+.no-posts-message {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #7f8c8d;
+  margin-top: 50px;
+  animation: fadeIn 1s ease-out;
+}
+
+/* --- Card Styles --- */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-img {
+  width: 100%;
+  height: 220px; /* Slightly taller image */
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.card-content {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #34495e;
+  line-height: 1.3;
+}
+
+.card-date {
+  color: #95a5a6;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  font-weight: 300;
+}
+
+.card-desc {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+  height: 75px; /* Adjust height for more text, ~4 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 15px;
+}
+
+/* --- Create Page Specific Styles --- */
+.create-post-container {
+  padding: 40px;
+  max-width: 800px;
+  margin: 60px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-out;
+}
+
+.create-post-container h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 40px;
+}
+
+.create-post-image-preview {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.create-post-form-group {
+  margin-bottom: 25px;
+}
+
+.file-input-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 25px;
+  background: #2ecc71; /* Green for upload */
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
+}
+
+.file-input-label:hover {
+  background: #27ae60;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+}
+
+.file-input-label svg {
+  font-size: 20px;
+}
+
+.create-post-button {
+  background: linear-gradient(to right, #2ecc71, #27ae60); /* Green gradient */
+}
+
+.create-post-button:hover {
+  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+}
+
+
+/* --- View Post Page Styles --- */
+.view-post-container {
+  padding: 40px;
+  max-width: 900px;
+  margin: 60px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-out;
+}
+
+.view-post-image {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.view-post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.view-post-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.view-post-actions {
+  display: flex;
+  gap: 15px;
+  font-size: 24px;
+}
+
+.view-post-actions .icon {
+  cursor: pointer;
+  color: #7f8c8d;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.view-post-actions .icon:hover {
+  transform: scale(1.1);
+}
+
+.view-post-actions .edit-icon:hover { color: #3498db; } /* Blue for edit */
+.view-post-actions .delete-icon:hover { color: #e74c3c; } /* Red for delete */
+
+
+.view-post-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.view-post-author b {
+  color: #34495e;
+}
+
+.view-post-description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #444;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInFromTop {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 15px;
+  }
+  .navbar-list {
+    margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .navbar-list li {
+    margin: 5px 10px;
+  }
+  .form-container, .create-post-container, .view-post-container {
+    margin: 30px auto;
+    padding: 25px;
+  }
+  .home-title {
+    font-size: 2.2rem;
+  }
+  .posts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .card-img {
+    height: 180px;
+  }
+  .card-title {
+    font-size: 1.3rem;
+  }
+  .view-post-title {
+    font-size: 2rem;
+  }
+  .view-post-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .view-post-actions {
+    margin-top: 15px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
