@@ -2,12 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Card = ({ post }) => {
-    const publicFolder = "http://localhost:5000/images/";
+    const publicFolder = `${import.meta.env.VITE_API_URL}/images/`;
 
-    // A default image if the post doesn't have one
     const postImage = post.photo
         ? publicFolder + post.photo
-        : "https://via.placeholder.com/320x220?text=No+Image"; // Placeholder for consistency
+        : "https://via.placeholder.com/320x220?text=No+Image";
 
     return (
         <div className="card">

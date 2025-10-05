@@ -1,5 +1,3 @@
-// src/pages/Home.jsx
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from '../components/Card';
@@ -10,15 +8,14 @@ const Home = () => {
     useEffect(() => {
         const fetchAllPosts = async () => {
             try {
-                // This fetch call has NO username, so it gets all posts from everyone
-                const res = await axios.get("http://localhost:5000/api/posts");
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`);
                 setPosts(res.data);
             } catch (err) {
                 console.error("Failed to fetch posts:", err);
             }
         };
         fetchAllPosts();
-    }, []); // Empty dependency array means this runs once on component mount
+    }, []);
 
     return (
         <div className="container">

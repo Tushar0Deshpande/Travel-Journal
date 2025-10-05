@@ -2,9 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Context } from '../context/Context';
 import { useNavigate } from 'react-router-dom';
-// Import a simple plus icon for the file input
 import { FaPlusCircle } from 'react-icons/fa';
-
 
 const Create = () => {
     const [title, setTitle] = useState('');
@@ -23,26 +21,22 @@ const Create = () => {
 
         if (file) {
             const data = new FormData();
-            const filename = Date.now() + "_" + file.name; // Added underscore for better filename
+            const filename = Date.now() + "_" + file.name;
             data.append("name", filename);
             data.append("file", file);
             newPost.photo = filename;
             try {
-                // IMPORTANT: Ensure your backend's multer setup saves files to the 'images' folder
-                // and that the 'images' folder is served statically.
-                await axios.post("http://localhost:5000/api/upload", data);
+                await axios.post(`${import.meta.env.VITE_API_URL}/api/upload`, data);
             } catch (err) {
                  console.error("Image upload failed:", err);
-                 // Optionally, you might want to show an error message to the user here
             }
         }
 
         try {
-            const res = await axios.post("http://localhost:5000/api/posts", newPost);
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts`, newPost);
             navigate(`/post/${res.data._id}`);
         } catch (err) {
              console.error("Post creation failed:", err);
-             // Optionally, show an error message for post creation
         }
     };
 

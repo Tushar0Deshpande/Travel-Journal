@@ -1,5 +1,3 @@
-    // src/pages/MyPosts.jsx
-
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Card from '../components/Card';
@@ -11,10 +9,9 @@ const MyPosts = () => {
 
     useEffect(() => {
         const fetchUserPosts = async () => {
-            // This fetch call includes the username to get only the user's posts
             if (user) {
                 try {
-                    const res = await axios.get(`http://localhost:5000/api/posts?user=${user.username}`);
+                    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts?user=${user.username}`);
                     setPosts(res.data);
                 } catch (err) {
                     console.error("Failed to fetch your posts:", err);
@@ -22,7 +19,7 @@ const MyPosts = () => {
             }
         };
         fetchUserPosts();
-    }, [user]); // Dependency on user is crucial here
+    }, [user]);
 
     return (
         <div className="container">

@@ -13,12 +13,12 @@ const Register = () => {
         e.preventDefault();
         setError('');
         try {
-            await axios.post("http://localhost:5000/api/auth/register", {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
                 username,
                 email,
                 password,
             });
-            navigate('/login'); // Redirect to login page after successful registration
+            navigate('/login');
         } catch (err) {
             setError('Something went wrong. Please try a different username or email.');
             console.error(err);
@@ -62,7 +62,7 @@ const Register = () => {
                         className="form-input"
                     />
                 </div>
-                <button type="submit" className="form-button" style={{ background: 'linear-gradient(to right, #ff7e5f, #feb47b)' }}> {/* Orange gradient for register */}
+                <button type="submit" className="form-button" style={{ background: 'linear-gradient(to right, #ff7e5f, #feb47b)' }}>
                     Register
                 </button>
             </form>
