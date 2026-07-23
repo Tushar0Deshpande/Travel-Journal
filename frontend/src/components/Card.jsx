@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Card = ({ post }) => {
-    const publicFolder = `${import.meta.env.VITE_API_URL}/images/`;
+    const publicFolder = `${process.env.REACT_APP_API_URL}/images/`;
 
     const postImage = post.photo
         ? publicFolder + post.photo

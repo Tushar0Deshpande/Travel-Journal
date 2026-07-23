@@ -8,7 +8,7 @@ const Home = () => {
     useEffect(() => {
         const fetchAllPosts = async () => {
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`);
+                const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts`);
                 setPosts(res.data);
             } catch (err) {
                 console.error("Failed to fetch posts:", err);

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const EntrySchema = new mongoose.Schema(
     {
@@ -28,4 +28,4 @@ const EntrySchema = new mongoose.Schema(
     }
 )
 
-export default mongoose.model("Entry", EntrySchema)
+module.exports = mongoose.model("Entry", EntrySchema);

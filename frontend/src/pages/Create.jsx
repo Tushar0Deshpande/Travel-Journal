@@ -26,14 +26,14 @@ const Create = () => {
             data.append("file", file);
             newPost.photo = filename;
             try {
-                await axios.post(`${import.meta.env.VITE_API_URL}/api/upload`, data);
+                await axios.post(`${process.env.REACT_APP_API_URL}/api/upload`, data);
             } catch (err) {
                  console.error("Image upload failed:", err);
             }
         }
 
         try {
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts`, newPost);
+            const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/posts`, newPost);
             navigate(`/post/${res.data._id}`);
         } catch (err) {
              console.error("Post creation failed:", err);

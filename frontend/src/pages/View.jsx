@@ -9,12 +9,12 @@ const View = () => {
     const [post, setPost] = useState({});
     const { user } = useContext(Context);
     const navigate = useNavigate();
-    const publicFolder = `${import.meta.env.VITE_API_URL}/images/`;
+    const publicFolder = `${process.env.REACT_APP_API_URL}/images/`;
 
     useEffect(() => {
         const getPost = async () => {
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts/${id}`);
+                const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts/${id}`);
                 setPost(res.data);
             } catch (err) {
                 console.error("Failed to fetch post:", err);
@@ -26,7 +26,7 @@ const View = () => {
     const handleDelete = async () => {
         try {
             if (user && post.username === user.username) {
-                await axios.delete(`${import.meta.env.VITE_API_URL}/api/posts/${id}`, {
+                await axios.delete(`${process.env.REACT_APP_API_URL}/api/posts/${id}`, {
                     data: { username: user.username },
                 });
                 navigate('/');

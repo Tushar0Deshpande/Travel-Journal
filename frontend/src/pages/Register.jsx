@@ -9,20 +9,48 @@ const Register = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    const validate = () => {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email.trim())) {
+            setError("Please enter a valid email address.");
+            return false;
+        }
+        if (password.length < 8) {
+            setError("Password must be at least 8 characters long.");
+            return false;
+        }
+        return true;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+
+        if (!validate()) {
+            return;
+        }
+
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
                 username,
-                email,
+                email: email.trim(),
                 password,
             });
             navigate('/login');
         } catch (err) {
-            setError('Something went wrong. Please try a different username or email.');
+            setError(err.response?.data || 'Something went wrong. Please try a different username or email.');
             console.error(err);
         }
+    };
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+        if (error) setError('');
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        if (error) setError('');
     };
 
     return (
@@ -46,7 +74,7 @@ const Register = () => {
                         type="email"
                         placeholder="Enter your email..."
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleEmailChange}
                         required
                         className="form-input"
                     />
@@ -55,10 +83,11 @@ const Register = () => {
                     <label>Password</label>
                     <input
                         type="password"
-                        placeholder="Enter your password..."
+                        placeholder="Enter your password (min 8 chars)..."
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={handlePasswordChange}
                         required
+                        minLength={8}
                         className="form-input"
                     />
                 </div>

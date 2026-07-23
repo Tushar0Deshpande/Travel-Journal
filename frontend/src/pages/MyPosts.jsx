@@ -11,7 +11,7 @@ const MyPosts = () => {
         const fetchUserPosts = async () => {
             if (user) {
                 try {
-                    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts?user=${user.username}`);
+                    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts?user=${user.username}`);
                     setPosts(res.data);
                 } catch (err) {
                     console.error("Failed to fetch your posts:", err);

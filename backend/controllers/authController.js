@@ -5,14 +5,25 @@ const jwt = require('jsonwebtoken');
 // REGISTER
 exports.register = async (req, res) => {
     try {
+        const { username, email, password } = req.body;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        if (!email || !emailRegex.test(email.trim())) {
+            return res.status(400).json("Please enter a valid email address!");
+        }
+
+        if (!password || password.length < 8) {
+            return res.status(400).json("Password must be at least 8 characters long!");
+        }
+
         // Hash the password
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         // Create a new user
         const newUser = new User({
-            username: req.body.username,
-            email: req.body.email,
+            username,
+            email: email.trim(),
             password: hashedPassword,
         });
 
