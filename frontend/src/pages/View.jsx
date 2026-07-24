@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Context } from '../context/Context';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
 
 const View = () => {
     const { id } = useParams();
@@ -38,6 +38,8 @@ const View = () => {
         }
     };
 
+    const postDate = post.createdAt ? new Date(post.createdAt).toDateString() : '';
+
     return (
         <div className="view-post-container">
             {post.photo ? (
@@ -56,11 +58,11 @@ const View = () => {
             </div>
             <div className="view-post-meta">
                 <span className="view-post-author">Author: <b>{post.username}</b></span>
-                <span>{new Date(post.createdAt).toDateString()}</span>
+                <span>{postDate}</span>
             </div>
             <p className="view-post-description">{post.desc}</p>
         </div>
     );
 };
 
-export default View;
+export default View;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { validateAuthInput } from '../utils/validation';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -9,24 +10,13 @@ const Register = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const validate = () => {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(email.trim())) {
-            setError("Please enter a valid email address.");
-            return false;
-        }
-        if (password.length < 8) {
-            setError("Password must be at least 8 characters long.");
-            return false;
-        }
-        return true;
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
-        if (!validate()) {
+        const validationError = validateAuthInput({ email, password });
+        if (validationError) {
+            setError(validationError);
             return;
         }
 
@@ -41,16 +31,6 @@ const Register = () => {
             setError(err.response?.data || 'Something went wrong. Please try a different username or email.');
             console.error(err);
         }
-    };
-
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-        if (error) setError('');
-    };
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        if (error) setError('');
     };
 
     return (
@@ -74,7 +54,7 @@ const Register = () => {
                         type="email"
                         placeholder="Enter your email..."
                         value={email}
-                        onChange={handleEmailChange}
+                        onChange={(e) => { setEmail(e.target.value); setError(''); }}
                         required
                         className="form-input"
                     />
@@ -85,13 +65,13 @@ const Register = () => {
                         type="password"
                         placeholder="Enter your password (min 8 chars)..."
                         value={password}
-                        onChange={handlePasswordChange}
+                        onChange={(e) => { setPassword(e.target.value); setError(''); }}
                         required
                         minLength={8}
                         className="form-input"
                     />
                 </div>
-                <button type="submit" className="form-button" style={{ background: 'linear-gradient(to right, #ff7e5f, #feb47b)' }}>
+                <button type="submit" className="form-button">
                     Register
                 </button>
             </form>
@@ -103,4 +83,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Register;

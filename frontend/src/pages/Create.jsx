@@ -21,14 +21,14 @@ const Create = () => {
 
         if (file) {
             const data = new FormData();
-            const filename = Date.now() + "_" + file.name;
+            const filename = `${Date.now()}_${file.name}`;
             data.append("name", filename);
             data.append("file", file);
             newPost.photo = filename;
             try {
                 await axios.post(`${process.env.REACT_APP_API_URL}/api/upload`, data);
             } catch (err) {
-                 console.error("Image upload failed:", err);
+                console.error("Image upload failed:", err);
             }
         }
 
@@ -36,7 +36,7 @@ const Create = () => {
             const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/posts`, newPost);
             navigate(`/post/${res.data._id}`);
         } catch (err) {
-             console.error("Post creation failed:", err);
+            console.error("Post creation failed:", err);
         }
     };
 
@@ -44,7 +44,7 @@ const Create = () => {
         <div className="create-post-container">
             <h2>Create New Journal Entry</h2>
             {file && (
-                 <img src={URL.createObjectURL(file)} alt="Preview" className="create-post-image-preview"/>
+                <img src={URL.createObjectURL(file)} alt="Preview" className="create-post-image-preview" />
             )}
             <form onSubmit={handleSubmit}>
                 <div className="create-post-form-group">
@@ -58,7 +58,7 @@ const Create = () => {
                         onChange={(e) => setFile(e.target.files[0])}
                     />
                 </div>
-                 <div className="create-post-form-group">
+                <div className="create-post-form-group">
                     <input
                         type="text"
                         placeholder="Title your adventure..."
@@ -85,4 +85,4 @@ const Create = () => {
     );
 };
 
-export default Create;
+export default Create;

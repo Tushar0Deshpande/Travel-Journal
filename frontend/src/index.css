@@ -73,6 +73,11 @@ a {
   text-shadow: 0 0 5px rgba(255,255,255,0.7);
 }
 
+.navbar-logout {
+  cursor: pointer;
+}
+
+
 .navbar-list li a::after,
 .navbar-list li span::after {
   content: '';

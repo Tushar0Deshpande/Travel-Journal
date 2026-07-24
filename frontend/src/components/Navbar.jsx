@@ -1,5 +1,3 @@
-// src/components/Navbar.jsx
-
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Context } from '../context/Context';
@@ -19,7 +17,7 @@ const Navbar = () => {
             <div>
                 <ul className="navbar-list">
                     <li><Link to="/">HOME</Link></li>
-                    {user && ( // Show these links only if user is logged in
+                    {user && (
                         <>
                             <li><Link to="/myposts">MY POSTS</Link></li>
                             <li><Link to="/create">CREATE</Link></li>
@@ -31,7 +29,9 @@ const Navbar = () => {
                 {user ? (
                     <ul className="navbar-list">
                         <li><span className="navbar-welcome">Welcome, {user.username}!</span></li>
-                        <li onClick={handleLogout}><span style={{ cursor: 'pointer' }}>LOGOUT</span></li>
+                        <li onClick={handleLogout} className="navbar-logout">
+                            <span>LOGOUT</span>
+                        </li>
                     </ul>
                 ) : (
                     <ul className="navbar-list">
@@ -44,4 +44,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default Navbar;

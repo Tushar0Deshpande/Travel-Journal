@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,25 +8,22 @@ const path = require('path');
 const authRoute = require('./routes/auth');
 const postRoute = require('./routes/posts');
 
-// Load environment variables
 dotenv.config();
 
-// Middlewares
+const app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "/images")));
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => {
-    console.log("Connected to MongoDB");
-}).catch((err) => {
-    console.error("MongoDB connection error:", err);
-});
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log("Connected to MongoDB");
+    })
+    .catch((err) => {
+        console.error("MongoDB connection error:", err);
+    });
 
-// File Upload (using Multer)
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "images");
@@ -37,19 +33,15 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 app.post("/api/upload", upload.single("file"), (req, res) => {
     res.status(200).json("File has been uploaded");
 });
 
-
-// API Routes
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
 
-
-// Start the server
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Backend server is running on port ${PORT}`);
-});
+});
