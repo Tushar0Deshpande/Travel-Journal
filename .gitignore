@@ -29,3 +29,5 @@ coverage/
 
 # Optional: Mac system files
 *.DS_Store
+# Documentation artifacts
+walkthrough.md
