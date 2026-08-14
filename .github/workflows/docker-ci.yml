@@ -1,0 +1,122 @@
+name: CI/CD Pipeline - Test, Build, Artifact & Docker Registry
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  # ----------------------------------------------------
+  # STAGE 1: AUTOMATED TESTING
+  # ----------------------------------------------------
+  test:
+    name: 🧪 Automated Testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+
+      # Test Backend
+      - name: Install Backend Dependencies & Test
+        run: |
+          cd backend
+          npm ci
+          npm test
+
+      # Test Frontend
+      - name: Install Frontend Dependencies & Test
+        run: |
+          cd frontend
+          npm ci
+          CI=true npm test -- --watchAll=false
+
+  # ----------------------------------------------------
+  # STAGE 2: BUILD & ARTIFACT GENERATION
+  # ----------------------------------------------------
+  build-artifacts:
+    name: 📦 Build Frontend Bundle & Save Artifacts
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Build React Production Distribution
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+      - name: Upload Production Web Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-frontend-build
+          path: frontend/build/
+          retention-days: 14
+
+  # ----------------------------------------------------
+  # STAGE 3: DOCKER CONTAINER BUILD & PUSH (GHCR)
+  # ----------------------------------------------------
+  docker-build-push:
+    name: 🐳 Docker Build & Push to GHCR
+    needs: [test, build-artifacts]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lowercase Repository Owner Name
+        id: owner
+        run: echo "owner=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
+      # Build & Push Backend Container Image
+      - name: Build & Push Backend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ghcr.io/${{ steps.owner.outputs.owner }}/travel-journal-backend:latest
+            ghcr.io/${{ steps.owner.outputs.owner }}/travel-journal-backend:${{ github.sha }}
+
+      # Build & Push Frontend Container Image
+      - name: Build & Push Frontend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ghcr.io/${{ steps.owner.outputs.owner }}/travel-journal-frontend:latest
+            ghcr.io/${{ steps.owner.outputs.owner }}/travel-journal-frontend:${{ github.sha }}

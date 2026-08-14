@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # Optional local MongoDB container (can also connect to MongoDB Atlas)
+  mongodb:
+    image: mongo:6.0
+    container_name: travel_journal_db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: traveljournal
+
+  # Node.js Express Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: travel_journal_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb+srv://TusharDeshpande:Tushar123@clauster1.kvegsi3.mongodb.net/?retryWrites=true&w=majority&appName=Clauster1
+      - JWT_SECRET=thisisasecretkeyfortheapp
+    volumes:
+      - backend_images:/app/images
+    depends_on:
+      - mongodb
+
+  # React Frontend Nginx Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: ""
+    container_name: travel_journal_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
+  backend_images:
