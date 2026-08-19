@@ -29,6 +29,9 @@ jobs:
 
       # Test Backend
       - name: Install Backend Dependencies & Test
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
           cd backend
           npm ci
