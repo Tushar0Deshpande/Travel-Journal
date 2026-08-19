@@ -22,10 +22,8 @@ services:
     restart: always
     ports:
       - "5000:5000"
-    environment:
-      - PORT=5000
-      - MONGO_URI=mongodb+srv://TusharDeshpande:Tushar123@clauster1.kvegsi3.mongodb.net/?retryWrites=true&w=majority&appName=Clauster1
-      - JWT_SECRET=thisisasecretkeyfortheapp
+    env_file:
+      - ./server/.env
     volumes:
       - backend_images:/app/images
     depends_on:
